@@ -1,0 +1,26 @@
+<nav class="navbar">
+    <div class="nav-left">
+        <button class="menu-btn" (click)="toggleSidebar()">☰</button>
+        <a routerLink="/" class="logo">
+            <span class="logo-icon">▶</span> AB-Tube
+        </a>
+    </div>
+
+    <div class="nav-center">
+        <div class="search-box">
+            <input type="text" placeholder="Search">
+            <button class="search-btn">🔍</button>
+        </div>
+    </div>
+
+    <div class="nav-right">
+        @if (auth.currentUser()) {
+        <a routerLink="/upload" class="icon-btn" title="Upload">+</a>
+        <div class="avatar" (click)="logout()">U</div>
+        } @else {
+        <a routerLink="/login" class="btn-login">
+            Sign in
+        </a>
+        }
+    </div>
+</nav>

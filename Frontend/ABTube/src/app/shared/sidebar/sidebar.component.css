@@ -1,0 +1,117 @@
+.sidebar {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    width: 240px;
+    height: calc(100vh - 56px);
+    background-color: var(--bg-primary, #0f0f0f);
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: width 0.2s ease, transform 0.2s ease;
+    z-index: 100;
+    border-right: 1px solid var(--border-color, #272727);
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #3f3f3f;
+    border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.sidebar.collapsed {
+    width: 72px;
+}
+
+.sidebar-content {
+    padding: 12px 0;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 10px 24px;
+    color: var(--text-main, #fff);
+    text-decoration: none;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.sidebar-item:hover {
+    background-color: var(--bg-hover, #272727);
+}
+
+.sidebar-item.active {
+    background-color: var(--bg-hover, #272727);
+    font-weight: 500;
+}
+
+.sidebar-item .icon {
+    font-size: 20px;
+    width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.sidebar-item .label {
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.2s;
+}
+
+.sidebar.collapsed .sidebar-item {
+    justify-content: center;
+    padding: 16px 0;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sidebar.collapsed .sidebar-item .label {
+    font-size: 10px;
+    text-align: center;
+}
+
+.divider {
+    height: 1px;
+    background-color: var(--border-color, #272727);
+    margin: 12px 0;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        width: 240px;
+    }
+
+    .sidebar.collapsed {
+        transform: translateX(-100%);
+    }
+
+    .sidebar:not(.collapsed) {
+        transform: translateX(0);
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.5);
+    }
+}
+
+/* Desktop - when collapsed, show only icons */
+@media (min-width: 769px) {
+    .sidebar.collapsed {
+        transform: translateX(0);
+    }
+}

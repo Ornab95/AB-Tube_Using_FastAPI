@@ -1,0 +1,23 @@
+<div class="main-content">
+    <div class="categories">
+        <button class="chip active">All</button>
+        <button class="chip">Gaming</button>
+        <button class="chip">Music</button>
+        <button class="chip">Live</button>
+        <button class="chip">Programming</button>
+    </div>
+
+    <div class="video-grid">
+        @for (video of videos; track video.id) {
+        <app-video-card [video]="video"></app-video-card>
+        } @empty {
+        @if (loading) {
+        <div class="loading-state">
+            <p>Loading cool videos...</p>
+        </div>
+        } @else {
+        <p>No videos found.</p>
+        }
+        }
+    </div>
+</div>

@@ -1,0 +1,16 @@
+<a [routerLink]="['/video', video.id]" class="video-card">
+    <div class="thumbnail-wrapper">
+        <img [src]="video.thumbnail_url || 'https://via.placeholder.com/320x180'" class="thumbnail" loading="lazy">
+        <span class="duration">10:00</span>
+    </div>
+    <div class="details">
+        <div class="avatar"></div>
+        <div class="meta">
+            <h3 class="title">{{ video.title }}</h3>
+            <div class="channel-name">{{ video.uploader }}</div>
+            <div class="stats">
+                {{ video.views || 0 }} views • {{ video.created_at | date:'mediumDate' }}
+            </div>
+        </div>
+    </div>
+</a>

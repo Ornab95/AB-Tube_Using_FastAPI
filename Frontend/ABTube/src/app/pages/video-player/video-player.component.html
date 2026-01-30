@@ -1,0 +1,67 @@
+<div class="video-container">
+    <div class="primary-col">
+        @if (video) {
+        <div class="player-wrapper">
+            <video [src]="video.url" controls autoplay class="video-player" poster="{{video.thumbnail_url}}"></video>
+        </div>
+
+        <h1 class="video-title">{{ video.title }}</h1>
+
+        <div class="video-actions">
+            <div class="channel-info">
+                <div class="avatar"></div>
+                <div>
+                    <div class="channel-name">{{ video.uploader }}</div>
+                    <div class="subs-count">1.2M subscribers</div>
+                </div>
+                <button class="btn btn-secondary subscribe-btn">Subscribe</button>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-action" (click)="likeVideo()">
+                    👍 {{ video.likes.length || 0 }}
+                </button>
+
+                <button class="btn btn-action">Share</button>
+            </div>
+        </div>
+
+        <div class="description-box">
+            <div class="desc-stats">{{ video.views }} views • {{ video.created_at | date }}</div>
+            <p>{{ video.description }}</p>
+        </div>
+
+        <div class="comments-section">
+            <h3>Comments</h3>
+            @if (auth.isAuthenticated()) {
+            <div class="comment-input-row">
+                <div class="avatar-small"></div>
+                <input type="text" [(ngModel)]="newComment" placeholder="Add a comment..."
+                    (keyup.enter)="postComment()">
+                <button class="btn btn-primary" (click)="postComment()" [disabled]="!newComment.trim()">Comment</button>
+            </div>
+            }
+
+            <div class="comments-list">
+                @for (comment of comments; track comment.id) {
+                <div class="comment-item">
+                    <div class="avatar-small"></div>
+                    <div class="comment-content">
+                        <span class="comment-author">{{ comment.username }}</span>
+                        <span class="comment-time">{{ comment.timestamp }}</span>
+                        <p class="comment-text">{{ comment.text }}</p>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+
+        } @else {
+        <p>Loading video...</p>
+        }
+    </div>
+
+    <div class="secondary-col">
+        <!-- Suggestions would go here -->
+    </div>
+</div>

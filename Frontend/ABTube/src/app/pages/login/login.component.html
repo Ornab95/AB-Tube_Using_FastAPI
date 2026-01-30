@@ -1,0 +1,27 @@
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="logo">
+            <span class="logo-icon">▶</span> AB-Tube
+        </div>
+        <h2>Sign in</h2>
+        <p>to continue to AB-Tube</p>
+
+        @if (error) {
+        <div class="error-msg">{{ error }}</div>
+        }
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <input type="text" formControlName="username" placeholder="Username or Email">
+            </div>
+            <div class="form-group">
+                <input type="password" formControlName="password" placeholder="Password">
+            </div>
+
+            <div class="actions">
+                <a routerLink="/register" class="link">Create account</a>
+                <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Next</button>
+            </div>
+        </form>
+    </div>
+</div>
