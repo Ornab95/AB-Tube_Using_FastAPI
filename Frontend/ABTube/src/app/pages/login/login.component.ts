@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
@@ -17,6 +17,7 @@ export class LoginComponent {
 
     loginForm: FormGroup;
     error = '';
+    showPassword = signal(false);
 
     constructor() {
         this.loginForm = this.fb.group({
@@ -25,16 +26,16 @@ export class LoginComponent {
         });
     }
 
+    togglePassword() {
+        this.showPassword.update(value => !value);
+    }
+
     onSubmit() {
         if (this.loginForm.valid) {
-            const formData = new FormData();
-            formData.append('username', this.loginForm.get('username')?.value);
-            formData.append('password', this.loginForm.get('password')?.value);
-
-            this.auth.login(formData).subscribe({
+            this.auth.login(this.loginForm.value).subscribe({
                 error: (err) => {
                     console.error(err);
-                    this.error = 'Invalid credentials';
+                    this.error = err.error?.detail || 'Invalid credentials';
                 }
             });
         }

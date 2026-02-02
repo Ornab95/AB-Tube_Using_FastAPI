@@ -16,7 +16,11 @@ export class AuthService {
     constructor(private http: HttpClient, private router: Router) { }
 
     login(credentials: any) {
-        return this.http.post<{ access_token: string }>(`${this.apiUrl}/login`, credentials).pipe(
+        const formData = new FormData();
+        formData.append('username', credentials.username);
+        formData.append('password', credentials.password);
+
+        return this.http.post<{ access_token: string }>(`${this.apiUrl}/login`, formData).pipe(
             tap(res => {
                 this.setToken(res.access_token);
                 this.router.navigate(['/']);

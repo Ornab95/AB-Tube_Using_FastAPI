@@ -119,8 +119,10 @@ def login(
     db: Session = Depends(get_db)
 ):
     user = db.query(User).filter(User.username == username).first()
-    if not user or not check_password_hash(user.password, password):
-        raise HTTPException(status_code=401, detail="Invalid username or password")
+    if not user:
+        raise HTTPException(status_code=401, detail="User not found")
+    if not check_password_hash(user.password, password):
+        raise HTTPException(status_code=401, detail="Invalid password")
     return {"access_token":user.username,"token_type":"bearer"}
 
 @app.post("/api/forgot-password")

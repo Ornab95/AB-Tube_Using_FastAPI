@@ -53,11 +53,38 @@ input {
     background: transparent;
     border: 1px solid var(--border);
     padding: 12px;
-    /* Fixed padding */
+    padding-right: 40px;
+    /* Make space for eye button */
     border-radius: 4px;
     color: var(--text-main);
     font-size: 16px;
     transition: all 0.3s;
+}
+
+.password-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.eye-btn {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.eye-btn:hover {
+    opacity: 1;
 }
 
 input:focus {

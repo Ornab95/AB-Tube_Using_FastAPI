@@ -1,6 +1,6 @@
 <a [routerLink]="['/video', video.id]" class="video-card">
     <div class="thumbnail-wrapper">
-        <img src="default-thumbnail.png" class="thumbnail" loading="eager">
+        <img [src]="getThumbnailUrl()" class="thumbnail" loading="eager">
         <span class="duration">{{ video.duration || '00:00' }}</span>
     </div>
     <div class="details">

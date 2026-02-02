@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
@@ -18,6 +18,7 @@ export class RegisterComponent {
 
     registerForm: FormGroup;
     error = '';
+    showPassword = signal(false);
 
     constructor() {
         this.registerForm = this.fb.group({
@@ -25,6 +26,10 @@ export class RegisterComponent {
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required, Validators.minLength(6)]]
         });
+    }
+
+    togglePassword() {
+        this.showPassword.update(value => !value);
     }
 
     onSubmit() {
