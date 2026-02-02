@@ -1,24 +1,58 @@
-/* Modern Reset & Base Styles */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 :root {
-    --primary: #FF0000;
-    --bg-dark: #0f0f0f;
-    --bg-primary: #0f0f0f;
-    --bg-card: #0f0f0f;
-    --bg-hover: #272727;
-    --text-main: #ffffff;
-    --text-secondary: #aaaaaa;
-    --border: #303030;
-    --border-color: #272727;
-    --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    --radius: 12px;
-    --font-main: 'Roboto', 'Arial', sans-serif;
+    /* Cloud Nine - Light Mode (Default) */
+    --bg-main: #F5F7FA;
+    --bg-card: #FFFFFF;
+    --bg-hover: #EDF2F7;
+
+    --primary: #6CB2EB;
+    /* Soft Sky Blue */
+    --primary-hover: #4FA3E0;
+    --text-on-primary: #FFFFFF;
+
+    --secondary: #FF8E72;
+    /* Soft Coral */
+
+    --text-main: #2D3748;
+    --text-secondary: #718096;
+
+    --border: #E2E8F0;
+    --border-color: #E2E8F0;
+
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.1);
+
+    --radius: 20px;
+
+    --font-main: 'Poppins', sans-serif;
+}
+
+body.dark-mode {
+    /* Dark Mode Overrides */
+    --bg-main: #121212;
+    --bg-card: #1E1E1E;
+    --bg-hover: #2D2D2D;
+
+    --primary: #6CB2EB;
+    --primary-hover: #5A9BD5;
+
+    --text-main: #E2E8F0;
+    --text-secondary: #A0AEC0;
+
+    --border: #2D3748;
+    --border-color: #2D3748;
+
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.4);
 }
 
 body {
     margin: 0;
     font-family: var(--font-main);
-    background-color: var(--bg-dark);
+    background-color: var(--bg-main);
     color: var(--text-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
     overflow-x: hidden;
 }
 
@@ -53,7 +87,7 @@ button {
 
 .btn-primary {
     background: var(--primary);
-    color: white;
+    color: var(--text-on-primary);
 }
 
 .btn-primary:hover {

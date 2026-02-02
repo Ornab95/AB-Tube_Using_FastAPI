@@ -9,8 +9,10 @@ import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
+    { path: 'login', component: LoginComponent, data: { hideLayout: true } },
+    { path: 'register', component: RegisterComponent, data: { hideLayout: true } },
+    { path: 'forgot-password', loadComponent: () => import('./pages/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent), data: { hideLayout: true } },
+    { path: 'reset-password', loadComponent: () => import('./pages/reset-password/reset-password.component').then(m => m.ResetPasswordComponent), data: { hideLayout: true } },
     { path: 'upload', component: UploadComponent, canActivate: [authGuard] },
     { path: 'video/:id', component: VideoPlayerComponent },
     { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },

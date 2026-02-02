@@ -2,7 +2,7 @@
     <div class="primary-col">
         @if (video) {
         <div class="player-wrapper">
-            <video [src]="video.url" controls autoplay class="video-player" poster="{{video.thumbnail_url}}"></video>
+            <video [src]="'http://localhost:8000/api/video/' + video.id" controls class="video-player"></video>
         </div>
 
         <h1 class="video-title">{{ video.title }}</h1>
@@ -12,14 +12,12 @@
                 <div class="avatar"></div>
                 <div>
                     <div class="channel-name">{{ video.uploader }}</div>
-                    <div class="subs-count">1.2M subscribers</div>
                 </div>
-                <button class="btn btn-secondary subscribe-btn">Subscribe</button>
             </div>
 
             <div class="action-buttons">
-                <button class="btn btn-action" (click)="likeVideo()">
-                    👍 {{ video.likes.length || 0 }}
+                <button class="btn btn-action" (click)="likeVideo()" [class.liked]="isLiked">
+                    {{ isLiked ? '👍' : '👍🏻' }} {{ video.likes.length || 0 }}
                 </button>
 
                 <button class="btn btn-action">Share</button>
@@ -27,7 +25,7 @@
         </div>
 
         <div class="description-box">
-            <div class="desc-stats">{{ video.views }} views • {{ video.created_at | date }}</div>
+            <div class="desc-stats">{{ video.created_at | date }}</div>
             <p>{{ video.description }}</p>
         </div>
 
@@ -45,10 +43,20 @@
             <div class="comments-list">
                 @for (comment of comments; track comment.id) {
                 <div class="comment-item">
-                    <div class="avatar-small"></div>
+                    <div class="comment-avatar">
+                        {{ comment.username.charAt(0) | uppercase }}
+                    </div>
                     <div class="comment-content">
-                        <span class="comment-author">{{ comment.username }}</span>
-                        <span class="comment-time">{{ comment.timestamp }}</span>
+                        <div class="comment-header">
+                            <span class="comment-author">{{ comment.username }}</span>
+                            <span class="comment-date">{{ comment.timestamp }}</span>
+                            @if (auth.currentUser() === comment.username) {
+                            <button class="btn-delete-comment" (click)="deleteComment(comment.id)"
+                                title="Delete comment">
+                                🗑️
+                            </button>
+                            }
+                        </div>
                         <p class="comment-text">{{ comment.text }}</p>
                     </div>
                 </div>

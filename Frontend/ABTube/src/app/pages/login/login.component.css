@@ -3,17 +3,18 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: var(--bg-dark);
+    background: var(--bg-main);
 }
 
 .auth-card {
-    background: var(--bg-hover);
+    background: var(--bg-card);
     padding: 48px;
     border-radius: var(--radius);
     border: 1px solid var(--border);
     width: 100%;
     max-width: 450px;
     text-align: center;
+    box-shadow: var(--shadow);
 }
 
 .logo {
@@ -24,6 +25,7 @@
     justify-content: center;
     align-items: center;
     gap: 8px;
+    color: var(--text-main);
 }
 
 .logo-icon {
@@ -34,6 +36,7 @@ h2 {
     margin: 0 0 8px 0;
     font-weight: 500;
     font-size: 24px;
+    color: var(--text-main);
 }
 
 p {
@@ -52,13 +55,15 @@ input {
     padding: 12px;
     /* Fixed padding */
     border-radius: 4px;
-    color: white;
+    color: var(--text-main);
     font-size: 16px;
+    transition: all 0.3s;
 }
 
 input:focus {
     border-color: var(--primary);
     outline: none;
+    box-shadow: 0 0 0 2px rgba(108, 178, 235, 0.2);
 }
 
 .actions {

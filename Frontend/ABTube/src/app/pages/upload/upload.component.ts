@@ -3,12 +3,11 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { VideoService } from '../../core/services/video.service';
 import { Router } from '@angular/router';
-import { NavbarComponent } from '../../shared/navbar/navbar.component';
 
 @Component({
     selector: 'app-upload',
     standalone: true,
-    imports: [ReactiveFormsModule, CommonModule, NavbarComponent],
+    imports: [ReactiveFormsModule, CommonModule],
     templateUrl: './upload.component.html',
     styleUrls: ['./upload.component.css']
 })
@@ -40,13 +39,19 @@ export class UploadComponent {
             formData.append('description', this.uploadForm.get('description')?.value);
             formData.append('file', this.selectedFile);
 
+            const token = localStorage.getItem('access_token');
+            if (token) {
+                formData.append('token', token);
+            }
+
             this.videoService.upload(formData).subscribe({
                 next: () => {
                     this.isUploading = false;
                     this.router.navigate(['/']);
                 },
                 error: (err) => {
-                    console.error(err);
+                    console.error('Upload error:', err);
+                    alert(err.error?.detail || 'Upload failed');
                     this.isUploading = false;
                 }
             });

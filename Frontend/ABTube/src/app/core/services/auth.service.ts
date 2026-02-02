@@ -49,4 +49,17 @@ export class AuthService {
     isAuthenticated(): boolean {
         return !!this.getToken();
     }
+
+    forgotPassword(email: string) {
+        const formData = new FormData();
+        formData.append('email', email);
+        return this.http.post<{ message: string }>(`${this.apiUrl}/forgot-password`, formData);
+    }
+
+    resetPassword(token: string, newPassword: string) {
+        const formData = new FormData();
+        formData.append('token', token);
+        formData.append('new_password', newPassword);
+        return this.http.post<{ message: string }>(`${this.apiUrl}/reset-password`, formData);
+    }
 }

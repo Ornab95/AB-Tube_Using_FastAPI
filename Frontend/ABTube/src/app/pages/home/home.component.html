@@ -1,4 +1,4 @@
-<div class="main-content">
+<div class="main-content" [class.sidebar-closed]="!sidebarService.isOpen()">
     <div class="categories">
         <button class="chip active">All</button>
         <button class="chip">Gaming</button>
@@ -8,15 +8,21 @@
     </div>
 
     <div class="video-grid">
-        @for (video of videos; track video.id) {
+        @for (video of videos(); track video.id) {
         <app-video-card [video]="video"></app-video-card>
         } @empty {
-        @if (loading) {
+        @if (loading()) {
         <div class="loading-state">
             <p>Loading cool videos...</p>
         </div>
+        } @else if (error()) {
+        <div class="error-state">
+            <p>{{ error() }}</p>
+        </div>
         } @else {
-        <p>No videos found.</p>
+        <div class="empty-state">
+            <p>No videos found.</p>
+        </div>
         }
         }
     </div>

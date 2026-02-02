@@ -1,10 +1,36 @@
-<div class="container profile-container">
-    <h1>My Profile</h1>
-    <div class="profile-card">
-        <div class="avatar-large">U</div>
-        <div>
-            <h2>My Channel</h2>
-            <button (click)="auth.logout()" class="btn btn-primary" style="margin-top: 1rem;">Sign Out</button>
+<div class="profile-page">
+    <div class="profile-header">
+        <div class="profile-info">
+            <div class="avatar-large">U</div>
+            <div class="info-text">
+                <h1>My Channel</h1>
+                <p class="channel-stats">{{ userVideos.length }} videos</p>
+            </div>
         </div>
+        <button (click)="auth.logout()" class="btn btn-primary">Sign Out</button>
+    </div>
+
+    <div class="profile-content">
+        <h2>My Videos</h2>
+
+        @if (loading) {
+        <div class="loading-state">
+            <p>Loading your videos...</p>
+        </div>
+        } @else if (userVideos.length === 0) {
+        <div class="empty-state">
+            <p>You haven't uploaded any videos yet.</p>
+            <a routerLink="/upload" class="btn btn-primary">Upload Your First Video</a>
+        </div>
+        } @else {
+        <div class="video-grid">
+            @for (video of userVideos; track video.id) {
+            <div class="video-item">
+                <app-video-card [video]="video"></app-video-card>
+                <button (click)="deleteVideo(video.id)" class="btn-delete">Delete</button>
+            </div>
+            }
+        </div>
+        }
     </div>
 </div>

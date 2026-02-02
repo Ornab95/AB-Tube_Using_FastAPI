@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 export interface Video {
-    id: string;
+    id: number;
     title: string;
     description: string;
-    url: string;
-    thumbnail_url: string;
+    file_path: string;
     uploader: string;
-    views: number;
-    likes: string[];
+    user_id: number;
+    likes: number[];
     created_at: string;
 }
 
@@ -25,15 +25,41 @@ export class VideoService {
         return this.http.get<Video[]>(`${this.apiUrl}/videos`);
     }
 
-    getVideo(id: string) {
-        return this.http.get<Video>(`${this.apiUrl}/video/${id}`);
+    getVideo(id: number | string) {
+        return this.http.get<Video[]>(`${this.apiUrl}/videos`).pipe(
+            map((videos: Video[]) => {
+                const video = videos.find(v => v.id.toString() === id.toString());
+                if (!video) {
+                    console.error('Video not found. Available videos:', videos);
+                    throw new Error('Video not found');
+                }
+                return video;
+            })
+        );
     }
 
     upload(formData: FormData) {
         return this.http.post(`${this.apiUrl}/upload`, formData);
     }
 
-    like(id: string) {
-        return this.http.post(`${this.apiUrl}/like/${id}`, {});
+    like(id: number | string) {
+        const formData = new FormData();
+        const token = localStorage.getItem('access_token');
+        if (token) formData.append('token', token);
+        return this.http.post(`${this.apiUrl}/like/${id}`, formData);
+    }
+
+    checkLike(id: number | string) {
+        const formData = new FormData();
+        const token = localStorage.getItem('access_token');
+        if (token) formData.append('token', token);
+        return this.http.post<{ liked: boolean }>(`${this.apiUrl}/liked/${id}`, formData);
+    }
+
+    deleteVideo(id: number | string) {
+        const formData = new FormData();
+        const token = localStorage.getItem('access_token');
+        if (token) formData.append('token', token);
+        return this.http.request('delete', `${this.apiUrl}/video/${id}`, { body: formData });
     }
 }

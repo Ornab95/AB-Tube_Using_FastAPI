@@ -51,6 +51,8 @@ class Comment(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
     comment = Column(Text)
     created_at = Column(DateTime, default=datetime.datetime.now)
+    user = relationship("User")
+
 
 # Create Tables
 Base.metadata.create_all(engine)    
@@ -191,11 +193,20 @@ def stream_video(video_id: int, db: Session = Depends(get_db)):
     if not os.path.exists(video.file_path):
         raise HTTPException(status_code=404, detail="Video file missing from server")
 
+    file_size = os.path.getsize(video.file_path)
+    
     def iterfile():
         with open(video.file_path, mode="rb") as file_like:
             yield from file_like
-
-    return StreamingResponse(iterfile(), media_type="video/mp4")
+    
+    return StreamingResponse(
+        iterfile(), 
+        media_type="video/mp4",
+        headers={
+            "Accept-Ranges": "bytes",
+            "Content-Length": str(file_size)
+        }
+    )
 
 
 @app.delete("/api/video/{video_id}")
@@ -243,7 +254,9 @@ def like_video(video_id: int, token: str = Form(...), db: Session = Depends(get_
     return {"liked": liked, "likes": likes_count}
 
 @app.post("/api/liked/{video_id}")
-def liked_video(video_id: int, token: str = Form(...), db: Session = Depends(get_db)):
+def liked_video(video_id: int, token: str = Form(None), db: Session = Depends(get_db)):
+    if not token:
+        return {"liked": False}
     user = getUserByToken(token, db)
     if not user:
         return {"liked": False}
@@ -258,6 +271,7 @@ def comment_video(video_id: int,db: Session = Depends(get_db)):
             "id": c.id,
             "text": c.comment,
             "user_id": c.user_id,
+            "username": c.user.username,
             "video_id": c.video_id,
             "created_at": c.created_at.strftime("%Y-%m-%d %H:%M:%S")
         }

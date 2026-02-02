@@ -16,7 +16,7 @@
     height: 100%;
     object-fit: cover;
     border-radius: 12px;
-    background-color: #222;
+    background-color: var(--bg-hover);
     transition: border-radius 0.2s;
 }
 
@@ -45,7 +45,7 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background-color: #555;
+    background-color: var(--bg-hover);
     flex-shrink: 0;
 }
 

@@ -4,12 +4,12 @@
     left: 0;
     width: 240px;
     height: calc(100vh - 56px);
-    background-color: var(--bg-primary, #0f0f0f);
+    background-color: var(--bg-card);
     overflow-y: auto;
     overflow-x: hidden;
-    transition: width 0.2s ease, transform 0.2s ease;
+    transition: width 0.2s ease, transform 0.2s ease, background-color 0.3s;
     z-index: 100;
-    border-right: 1px solid var(--border-color, #272727);
+    border-right: 1px solid var(--border);
 }
 
 .sidebar::-webkit-scrollbar {
@@ -21,12 +21,12 @@
 }
 
 .sidebar::-webkit-scrollbar-thumb {
-    background: #3f3f3f;
+    background: #ccc;
     border-radius: 4px;
 }
 
 .sidebar::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: #bbb;
 }
 
 .sidebar.collapsed {
@@ -42,21 +42,22 @@
     align-items: center;
     gap: 24px;
     padding: 10px 24px;
-    color: var(--text-main, #fff);
+    color: var(--text-main);
     text-decoration: none;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, color 0.2s;
     cursor: pointer;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 500;
 }
 
 .sidebar-item:hover {
-    background-color: var(--bg-hover, #272727);
+    background-color: var(--bg-hover);
 }
 
 .sidebar-item.active {
-    background-color: var(--bg-hover, #272727);
-    font-weight: 500;
+    background-color: var(--primary);
+    color: var(--text-on-primary);
+    font-weight: 600;
 }
 
 .sidebar-item .icon {
@@ -88,7 +89,7 @@
 
 .divider {
     height: 1px;
-    background-color: var(--border-color, #272727);
+    background-color: var(--border);
     margin: 12px 0;
 }
 

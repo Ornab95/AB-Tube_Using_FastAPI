@@ -1,26 +1,60 @@
 <nav class="navbar">
     <div class="nav-left">
-        <button class="menu-btn" (click)="toggleSidebar()">☰</button>
+        <button class="icon-btn menu-btn" (click)="sidebarService.toggle()">☰</button>
         <a routerLink="/" class="logo">
-            <span class="logo-icon">▶</span> AB-Tube
+            <span class="logo-icon">▶️</span> AB-Tube
         </a>
     </div>
 
     <div class="nav-center">
         <div class="search-box">
-            <input type="text" placeholder="Search">
+            <input type="text" placeholder="Search" [(ngModel)]="searchQuery">
             <button class="search-btn">🔍</button>
         </div>
     </div>
 
     <div class="nav-right">
+        <button class="icon-btn theme-btn" (click)="toggleTheme()" title="Toggle Theme">
+            {{ themeService.isDark() ? '🌙' : '☀️' }}
+        </button>
+
         @if (auth.currentUser()) {
         <a routerLink="/upload" class="icon-btn" title="Upload">+</a>
-        <div class="avatar" (click)="logout()">U</div>
-        } @else {
-        <a routerLink="/login" class="btn-login">
-            Sign in
-        </a>
         }
+
+        <div class="profile-dropdown-container">
+            <button class="avatar-btn" (click)="toggleDropdown()">
+                @if (auth.currentUser()) {
+                <div class="avatar-img">{{ auth.currentUser()?.charAt(0) | uppercase }}</div>
+                } @else {
+                <div class="avatar-icon">👤</div>
+                }
+            </button>
+
+            @if (isDropdownOpen) {
+            <div class="dropdown-menu">
+                @if (auth.currentUser()) {
+                <div class="dropdown-header">
+                    <span class="header-icon">👤</span>
+                    <span class="user-name">{{ auth.currentUser() }}</span>
+                </div>
+                <div class="divider"></div>
+                <a routerLink="/profile" class="dropdown-item" (click)="closeDropdown()">
+                    <span class="icon">👤</span> Profile
+                </a>
+                <button class="dropdown-item" (click)="logout()">
+                    <span class="icon">🚪</span> Logout
+                </button>
+                } @else {
+                <a routerLink="/login" class="dropdown-item" (click)="closeDropdown()">
+                    <span class="icon">🔑</span> Login
+                </a>
+                <a routerLink="/register" class="dropdown-item" (click)="closeDropdown()">
+                    <span class="icon">📝</span> Registration
+                </a>
+                }
+            </div>
+            }
+        </div>
     </div>
 </nav>
