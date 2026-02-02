@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
@@ -10,6 +10,8 @@ export interface Video {
     uploader: string;
     user_id: number;
     likes: number[];
+    category?: string;
+    duration?: string;
     created_at: string;
 }
 
@@ -18,6 +20,7 @@ export interface Video {
 })
 export class VideoService {
     private apiUrl = 'http://localhost:8000/api';
+    searchQuery = signal('');
 
     constructor(private http: HttpClient) { }
 

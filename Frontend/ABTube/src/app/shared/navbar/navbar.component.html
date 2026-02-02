@@ -8,8 +8,9 @@
 
     <div class="nav-center">
         <div class="search-box">
-            <input type="text" placeholder="Search" [(ngModel)]="searchQuery">
-            <button class="search-btn">🔍</button>
+            <input type="text" placeholder="Search" [ngModel]="videoService.searchQuery()"
+                (input)="updateSearch($event)" (keyup.enter)="onSearch()">
+            <button class="search-btn" (click)="onSearch()">🔍</button>
         </div>
     </div>
 

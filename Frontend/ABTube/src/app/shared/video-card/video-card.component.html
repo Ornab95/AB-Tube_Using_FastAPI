@@ -1,7 +1,7 @@
 <a [routerLink]="['/video', video.id]" class="video-card">
     <div class="thumbnail-wrapper">
-        <img src="https://via.placeholder.com/320x180" class="thumbnail" loading="lazy">
-        <span class="duration">10:00</span>
+        <img src="default-thumbnail.png" class="thumbnail" loading="eager">
+        <span class="duration">{{ video.duration || '00:00' }}</span>
     </div>
     <div class="details">
         <div class="avatar"></div>

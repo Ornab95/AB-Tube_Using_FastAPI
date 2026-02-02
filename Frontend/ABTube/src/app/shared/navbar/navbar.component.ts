@@ -3,6 +3,7 @@ import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { SidebarService } from '../../core/services/sidebar.service';
 import { ThemeService } from '../../core/services/theme.service';
+import { VideoService } from '../../core/services/video.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -18,6 +19,7 @@ export class NavbarComponent {
     router = inject(Router);
     sidebarService = inject(SidebarService);
     themeService = inject(ThemeService);
+    videoService = inject(VideoService);
     elementRef = inject(ElementRef);
     searchQuery = '';
     isDropdownOpen = false;
@@ -48,5 +50,17 @@ export class NavbarComponent {
 
     toggleSidebar() {
         this.sidebarService.toggle();
+    }
+
+    updateSearch(event: Event) {
+        const query = (event.target as HTMLInputElement).value;
+        this.videoService.searchQuery.set(query);
+    }
+
+    onSearch() {
+        // If we are not on the home page, navigate to it
+        if (this.router.url !== '/') {
+            this.router.navigate(['/']);
+        }
     }
 }

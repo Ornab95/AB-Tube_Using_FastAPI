@@ -1,14 +1,13 @@
 <div class="main-content" [class.sidebar-closed]="!sidebarService.isOpen()">
     <div class="categories">
-        <button class="chip active">All</button>
-        <button class="chip">Gaming</button>
-        <button class="chip">Music</button>
-        <button class="chip">Live</button>
-        <button class="chip">Programming</button>
+        @for (category of categories; track category) {
+        <button class="chip" [class.active]="selectedCategory() === category" (click)="selectCategory(category)">{{
+            category }}</button>
+        }
     </div>
 
     <div class="video-grid">
-        @for (video of videos(); track video.id) {
+        @for (video of filteredVideos(); track video.id) {
         <app-video-card [video]="video"></app-video-card>
         } @empty {
         @if (loading()) {

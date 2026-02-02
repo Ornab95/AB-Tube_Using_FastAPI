@@ -31,6 +31,8 @@ class Video(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String)
     description = Column(Text)
+    category = Column(String, default="Other")
+    duration = Column(String, default="00:00")
     file_path = Column(String) 
     likes = relationship("Like", backref="video") 
     user_id = Column(Integer, ForeignKey("users.id"))
@@ -55,7 +57,27 @@ class Comment(Base):
 
 
 # Create Tables
-Base.metadata.create_all(engine)    
+Base.metadata.create_all(engine)
+
+# Migration to add category column if missing
+from sqlalchemy import text, inspect
+try:
+    with engine.connect() as conn:
+        inspector = inspect(engine)
+        columns = [col['name'] for col in inspector.get_columns('videos')]
+        if 'category' not in columns:
+            print("Migrating: Adding category column to videos table...")
+            conn.execute(text("ALTER TABLE videos ADD COLUMN category VARCHAR DEFAULT 'Other'"))
+            conn.commit()
+            print("Migration successful.")
+        
+        if 'duration' not in columns:
+            print("Migrating: Adding duration column to videos table...")
+            conn.execute(text("ALTER TABLE videos ADD COLUMN duration VARCHAR DEFAULT '00:00'"))
+            conn.commit()
+            print("Migration successful - duration added.")
+except Exception as e:
+    print(f"Migration check/execution failed: {e}")    
 
 app = FastAPI()
 
@@ -139,6 +161,8 @@ def reset_password(
 def upload(
     title: str = Form(...),
     description: str = Form(...),
+    category: str = Form("Other"),
+    duration: str = Form("00:00"),
     token: str = Form(...),
     file: UploadFile = File(...),
     db: Session = Depends(get_db)
@@ -160,7 +184,7 @@ def upload(
         shutil.copyfileobj(file.file, f)
     
     
-    video = Video(title=title, description=description, file_path=file_path, user_id=user.id)
+    video = Video(title=title, description=description, category=category, duration=duration, file_path=file_path, user_id=user.id)
     db.add(video)
     db.commit()
     db.refresh(video)
@@ -175,6 +199,8 @@ def get_all_videos(db: Session = Depends(get_db)):
             "id": video.id,
             "title": video.title,
             "description": video.description,
+            "category": video.category,
+            "duration": video.duration,
             "file_path": video.file_path,
             "user_id": video.user_id,
             "likes": [l.user_id for l in video.likes],
@@ -224,6 +250,11 @@ def delete_video(video_id: int, token: str = Form(...), db: Session = Depends(ge
             os.remove(video.file_path)
     except FileNotFoundError:
         pass
+    
+    # Manually delete related records (since we're not using ON DELETE CASCADE in DB)
+    db.query(Comment).filter(Comment.video_id == video_id).delete()
+    db.query(Like).filter(Like.video_id == video_id).delete()
+    
     db.delete(video)    
     db.commit() 
     return {"message": "Video deleted successfully"}    

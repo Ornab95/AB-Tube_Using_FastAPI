@@ -19,6 +19,15 @@
             </div>
 
             <div class="form-group">
+                <label>Category</label>
+                <select formControlName="category">
+                    @for(cat of categories; track cat) {
+                    <option [value]="cat">{{cat}}</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
                 <label>Description</label>
                 <textarea formControlName="description" rows="5" placeholder="Tell viewers about your video"></textarea>
             </div>

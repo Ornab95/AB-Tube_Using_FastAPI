@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { VideoService, Video } from '../../core/services/video.service';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
@@ -13,10 +13,11 @@ import { AuthService } from '../../core/services/auth.service';
     templateUrl: './video-player.component.html',
     styleUrls: ['./video-player.component.css']
 })
-export class VideoPlayerComponent implements OnInit {
+export class VideoPlayerComponent implements OnInit, OnChanges {
     videoService = inject(VideoService);
     commentService = inject(CommentService);
     auth = inject(AuthService);
+    cdr = inject(ChangeDetectorRef);
 
     @Input() id!: string; // From router parameter
     video: Video | null = null;
@@ -26,10 +27,20 @@ export class VideoPlayerComponent implements OnInit {
 
     ngOnInit() {
         if (this.id) {
-            this.loadVideo(this.id);
-            this.loadComments(this.id);
-            this.loadLikeStatus(this.id);
+            this.loadAll(this.id);
         }
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['id'] && changes['id'].currentValue) {
+            this.loadAll(changes['id'].currentValue);
+        }
+    }
+
+    loadAll(id: string | number) {
+        this.loadVideo(id);
+        this.loadComments(id);
+        this.loadLikeStatus(id);
     }
 
     loadVideo(id: number | string) {
@@ -38,6 +49,7 @@ export class VideoPlayerComponent implements OnInit {
             next: (v) => {
                 console.log('Video loaded:', v);
                 this.video = v;
+                this.cdr.detectChanges();
             },
             error: (err) => {
                 console.error('Failed to load video', err);

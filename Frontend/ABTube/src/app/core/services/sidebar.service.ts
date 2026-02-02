@@ -4,7 +4,7 @@ import { Injectable, signal } from '@angular/core';
     providedIn: 'root'
 })
 export class SidebarService {
-    private _isOpen = signal(true);
+    private _isOpen = signal(window.innerWidth > 768);
 
     isOpen = this._isOpen.asReadonly();
 

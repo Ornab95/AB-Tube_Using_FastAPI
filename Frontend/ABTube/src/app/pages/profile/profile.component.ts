@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
@@ -16,6 +16,7 @@ import { VideoCardComponent } from '../../shared/video-card/video-card.component
 export class ProfileComponent implements OnInit {
     auth = inject(AuthService);
     videoService = inject(VideoService);
+    cdr = inject(ChangeDetectorRef);
     userVideos: Video[] = [];
     loading = true;
 
@@ -30,8 +31,10 @@ export class ProfileComponent implements OnInit {
             next: (videos) => {
                 // Filter videos uploaded by current user - this is a placeholder
                 // You should get username from auth service or JWT
+                // You should get username from auth service or JWT
                 this.userVideos = videos;
                 this.loading = false;
+                this.cdr.detectChanges();
             },
             error: (err) => {
                 console.error('Failed to load videos', err);

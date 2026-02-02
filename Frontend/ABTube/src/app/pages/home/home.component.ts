@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { VideoService, Video } from '../../core/services/video.service';
 import { SidebarService } from '../../core/services/sidebar.service';
@@ -18,6 +18,37 @@ export class HomeComponent implements OnInit {
     videos = signal<Video[]>([]);
     loading = signal(true);
     error = signal('');
+
+    selectedCategory = signal('All');
+    categories = [
+        'All', 'Trending', 'AI', 'Comedy', 'Crypto', 'Fashion', 'Finance', 'Food',
+        'Gaming', 'Learning', 'Movies', 'Music', 'News', 'Programming', 'Sports',
+        'Technology', 'Travel', 'Vlog', 'Other'
+    ];
+
+    filteredVideos = computed(() => {
+        const category = this.selectedCategory();
+        const search = this.videoService.searchQuery().toLowerCase();
+
+        let filtered = this.videos();
+
+        if (category !== 'All') {
+            filtered = filtered.filter(v => v.category === category);
+        }
+
+        if (search) {
+            filtered = filtered.filter(v =>
+                v.title.toLowerCase().includes(search) ||
+                v.description.toLowerCase().includes(search)
+            );
+        }
+
+        return filtered;
+    });
+
+    selectCategory(category: string) {
+        this.selectedCategory.set(category);
+    }
 
     ngOnInit() {
         this.videoService.getVideos().subscribe({
