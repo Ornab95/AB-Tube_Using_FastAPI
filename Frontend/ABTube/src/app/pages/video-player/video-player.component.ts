@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, OnDestroy, SimpleChanges, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { VideoService, Video } from '../../core/services/video.service';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
@@ -13,7 +13,7 @@ import { AuthService } from '../../core/services/auth.service';
     templateUrl: './video-player.component.html',
     styleUrls: ['./video-player.component.css']
 })
-export class VideoPlayerComponent implements OnInit, OnChanges {
+export class VideoPlayerComponent implements OnInit, OnChanges, OnDestroy {
     videoService = inject(VideoService);
     commentService = inject(CommentService);
     auth = inject(AuthService);
@@ -24,6 +24,7 @@ export class VideoPlayerComponent implements OnInit, OnChanges {
     comments: Comment[] = [];
     newComment = '';
     isLiked = false;
+    player: any = null; // Plyr instance
 
     ngOnInit() {
         if (this.id) {
@@ -31,10 +32,60 @@ export class VideoPlayerComponent implements OnInit, OnChanges {
         }
     }
 
+    ngOnDestroy() {
+        if (this.player) {
+            this.player.destroy();
+        }
+    }
+
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['id'] && changes['id'].currentValue) {
             this.loadAll(changes['id'].currentValue);
         }
+    }
+
+    async initPlayer() {
+        // Wait for DOM update
+        setTimeout(async () => {
+            const videoElement = document.querySelector('.video-player') as HTMLElement;
+            console.log('Video element found:', videoElement);
+
+            if (videoElement) {
+                // Destroy existing player if any
+                if (this.player) {
+                    console.log('Destroying existing player');
+                    this.player.destroy();
+                }
+
+                try {
+                    // Initialize Plyr with dynamic import
+                    console.log('Importing Plyr module...');
+
+                    // Plyr uses CommonJS export (export = Plyr)
+                    // Import the module and access the default export
+                    const PlyrModule = await import('plyr');
+                    const Plyr = (PlyrModule as any).default || PlyrModule;
+                    console.log('Plyr module loaded:', Plyr);
+
+
+                    this.player = new Plyr(videoElement, {
+                        controls: [
+                            'play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'
+                        ],
+                        settings: ['captions', 'quality', 'speed', 'loop'],
+                        ratio: null, // Don't force aspect ratio
+                        fullscreen: { enabled: true, fallback: true, iosNative: false }
+                    });
+
+
+                    console.log('Plyr player initialized:', this.player);
+                } catch (err) {
+                    console.error('Failed to initialize Plyr:', err);
+                }
+            } else {
+                console.error('Video element not found');
+            }
+        }, 100);
     }
 
     loadAll(id: string | number) {
@@ -50,6 +101,7 @@ export class VideoPlayerComponent implements OnInit, OnChanges {
                 console.log('Video loaded:', v);
                 this.video = v;
                 this.cdr.detectChanges();
+                this.initPlayer(); // Initialize player after video data is loaded
             },
             error: (err) => {
                 console.error('Failed to load video', err);

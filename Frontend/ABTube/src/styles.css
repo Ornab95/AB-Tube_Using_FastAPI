@@ -1,4 +1,6 @@
+@charset "UTF-8";
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import 'plyr/dist/plyr.css';
 
 :root {
     /* Cloud Nine - Light Mode (Default) */
@@ -26,6 +28,32 @@
     --radius: 20px;
 
     --font-main: 'Poppins', sans-serif;
+
+    /* Glassmorphism - Light Mode */
+    --page-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.5);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    --text-glass: #2D3748;
+    --input-bg-glass: rgba(255, 255, 255, 0.6);
+    --input-border-glass: rgba(255, 255, 255, 0.8);
+    --orb-1: rgba(108, 178, 235, 0.3);
+    --orb-2: rgba(255, 142, 114, 0.3);
+
+    --dropdown-bg: rgba(255, 255, 255, 0.9);
+    /* 90% opacity white for light mode */
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-main);
+    background: var(--page-gradient);
+    background-attachment: fixed;
+    /* Ensures gradient stays in place while scrolling */
+    color: var(--text-main);
+    transition: background 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
+    min-height: 100vh;
 }
 
 body.dark-mode {
@@ -45,15 +73,25 @@ body.dark-mode {
 
     --shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.4);
-}
 
-body {
-    margin: 0;
-    font-family: var(--font-main);
-    background-color: var(--bg-main);
-    color: var(--text-main);
-    transition: background-color 0.3s ease, color 0.3s ease;
-    overflow-x: hidden;
+    /* Glassmorphism - Dark Mode */
+    --page-gradient: linear-gradient(135deg, #1f1c2c 0%, #928dab 100%);
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    --text-glass: #FFFFFF;
+    --input-bg-glass: rgba(255, 255, 255, 0.07);
+    --input-border-glass: rgba(255, 255, 255, 0.2);
+    --orb-1: rgba(142, 68, 173, 0.4);
+    --orb-2: rgba(41, 128, 185, 0.4);
+
+    --dropdown-bg: rgba(20, 20, 30, 0.85);
+    /* 85% opacity dark background for better readability */
+
+    /* Explicit override to ensure background applies */
+    background: linear-gradient(135deg, #1f1c2c 0%, #928dab 100%) !important;
+    background-attachment: fixed !important;
+    color: var(--text-glass) !important;
 }
 
 * {
@@ -119,4 +157,89 @@ button {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #777;
+}
+
+/* Plyr Customization */
+:root {
+    --plyr-color-main: var(--primary);
+    --plyr-video-control-color: white;
+    --plyr-video-control-background-hover: var(--primary);
+}
+
+.plyr--video {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.plyr__control--overlaid {
+    background: var(--primary);
+}
+
+.plyr--full-ui input[type=range] {
+    color: var(--primary);
+}
+
+/* Force controls to span full width for vertical videos */
+.plyr__controls {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+}
+
+.plyr__progress {
+    width: 100% !important;
+}
+
+/* Fullscreen video fix - ensure video is contained not cropped */
+/* Maximum specificity to override Plyr defaults */
+.plyr--fullscreen video,
+.plyr:-webkit-full-screen video,
+.plyr:-moz-full-screen video,
+.plyr:-ms-fullscreen video,
+.plyr.plyr--fullscreen video,
+.plyr.plyr--video.plyr--fullscreen video {
+    object-fit: contain !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+}
+
+.plyr--fullscreen.plyr--video,
+.plyr:-webkit-full-screen.plyr--video,
+.plyr:-moz-full-screen.plyr--video,
+.plyr:-ms-fullscreen.plyr--video {
+    background: black !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Target Plyr's video wrapper */
+.plyr--fullscreen .plyr__video-wrapper,
+.plyr:-webkit-full-screen .plyr__video-wrapper,
+.plyr:-moz-full-screen .plyr__video-wrapper,
+.plyr:-ms-fullscreen .plyr__video-wrapper {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Ensure Plyr doesn't add cover styles */
+.plyr--fullscreen .plyr__video-wrapper video,
+.plyr:-webkit-full-screen .plyr__video-wrapper video,
+.plyr:-moz-full-screen .plyr__video-wrapper video,
+.plyr:-ms-fullscreen .plyr__video-wrapper video {
+    object-fit: contain !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
 }
