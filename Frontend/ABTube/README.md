@@ -1,296 +1,377 @@
-# ABTube - YouTube Clone Frontend
+# 🎨 ABTube Frontend
 
-A modern, production-ready Angular 21 video streaming application built to integrate with a FastAPI backend. This project implements a complete YouTube-style interface with authentication, video streaming, uploads, likes, and comments.
+<div align="center">
 
-## 🎯 Project Overview
+![Angular](https://img.shields.io/badge/Angular-21.1-DD0031?style=for-the-badge&logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.1-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Plyr](https://img.shields.io/badge/Plyr-3.8-00B9FF?style=for-the-badge&logo=html5&logoColor=white)
 
-**ABTube** is a full-featured video streaming platform frontend that provides:
+**A modern, responsive YouTube-like video platform frontend built with Angular**
 
-- ✅ User authentication (login/register)
-- ✅ Video streaming with HTML5 player
-- ✅ Video upload system with file validation
-- ✅ Like/Unlike functionality with real-time status
-- ✅ Comment system with real-time updates
-- ✅ Responsive YouTube-inspired UI
-- ✅ Modern dark theme design
-- ✅ Protected routes with auth guards
-- ✅ HTTP interceptor for automatic token injection
-- ✅ Profile/Channel page with video management
-- ✅ Delete video functionality
+[Features](#-features) • [Tech Stack](#-tech-stack) • [Installation](#-installation) • [Pages](#-pages) • [Components](#-components)
 
-## 🧱 Tech Stack
+</div>
 
-- **Framework**: Angular 21 (Standalone Components)
-- **Styling**: Tailwind CSS 4.x
-- **HTTP Client**: Angular HttpClient with RxJS
-- **Forms**: Reactive Forms
-- **Routing**: Angular Router with lazy loading support
-- **State Management**: Signals (Angular 21)
-- **Icons**: Unicode emoji icons (easily replaceable)
+---
 
-## 📁 Project Structure
+## ✨ Features
+
+### 🎬 **Video Experience**
+- **Plyr Video Player**: Enhanced video player with custom controls and theme integration
+  - Playback speed controls (0.5x - 2x)
+  - Picture-in-picture support
+  - Keyboard shortcuts (Space, F, M, Arrow keys)
+  - Fullscreen optimization for all video orientations
+- **Video Upload**: Upload videos with metadata (title, description, category)
+- **Video Grid**: Browse videos in a responsive grid layout
+- **Category Filtering**: Filter videos by categories
+
+### 🎨 **Modern UI/UX**
+- **Responsive Design**: Fully responsive across desktop, tablet, and mobile
+- **Glassmorphic Theme**: Modern glassmorphism design with smooth animations
+- **Dark Mode Ready**: Styled with CSS custom properties for easy theming
+- **Smooth Animations**: Micro-interactions and transitions throughout
+- **Custom Color Palette**: Soft Sky Blue (#6CB2EB) primary color theme
+
+### 👤 **User Features**
+- **Authentication**: Secure login and registration system
+- **User Profile**: View and manage user profile
+- **Likes System**: Like/unlike videos
+- **Comments**: Add, view, and delete comments on videos
+- **Password Recovery**: Forgot password and reset functionality
+
+### 🎯 **Navigation**
+- **Sidebar Navigation**: Collapsible sidebar with route navigation
+- **Navbar**: Fixed navbar with search, notifications, and user menu
+- **Breadcrumbs**: Context-aware navigation breadcrumbs
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology | Purpose | Version |
+|------------|---------|---------|
+| **Angular** | Frontend framework | 21.1.0 |
+| **TypeScript** | Type-safe JavaScript | 5.9.2 |
+| **RxJS** | Reactive programming | 7.8.0 |
+| **Plyr** | Enhanced video player | 3.8.4 |
+| **TailwindCSS** | Utility-first CSS framework | 4.1.12 |
+| **Vitest** | Unit testing framework | 4.0.8 |
+
+---
+
+## 📦 Installation
+
+### Prerequisites
+- Node.js 18+ and npm 11+
+- Angular CLI 21+
+
+### Steps
+
+1. **Navigate to the Frontend directory**
+   ```bash
+   cd Frontend/ABTube
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**
+   ```bash
+   npm start
+   # or
+   ng serve
+   ```
+
+4. **Open in browser** 🎉
+   ```
+   http://localhost:4200
+   ```
+
+---
+
+## 📱 Pages
+
+### 🏠 Home
+- Grid view of all uploaded videos
+- Category sidebar navigation
+- Responsive video cards with thumbnails
+
+### 🎥 Video Player
+- Enhanced Plyr video player with custom controls
+- Video metadata (title, description, uploader, date)
+- Like button with count
+- Comments section with real-time updates
+- Related videos sidebar (planned)
+
+### 📤 Upload
+- Video file upload with drag-and-drop
+- Video metadata form (title, description, category)
+- Upload progress indicator
+- Category selection dropdown
+
+### 🔐 Authentication
+- **Login**: Email/username and password login
+- **Register**: New user registration with email validation
+- **Forgot Password**: Request password reset link
+- **Reset Password**: Set new password with reset token
+
+### 👤 Profile
+- View user information
+- List of uploaded videos
+- User statistics (planned)
+
+---
+
+## 🧩 Components
+
+### 🎯 Core Components
 
 ```
 src/app/
-├── core/
-│   ├── guards/
-│   │   └── auth.guard.ts              # Route protection
-│   ├── interceptors/
-│   │   └── token.interceptor.ts       # JWT token injection
-│   └── services/
-│       ├── auth.service.ts            # Authentication logic
-│       ├── video.service.ts           # Video CRUD operations
-│       ├── comment.service.ts         # Comment management
-│       └── sidebar.service.ts         # Sidebar state
-├── pages/
-│   ├── home/                          # Video grid feed
-│   ├── login/                         # Login page
-│   ├── register/                      # Registration page
-│   ├── video-player/                  # Video player & comments
-│   ├── upload/                        # Video upload form
-│   └── profile/                       # User channel page
-├── shared/
-│   ├── navbar/                        # Top navigation
-│   ├── sidebar/                       # Left sidebar navigation
-│   └── video-card/                    # Reusable video thumbnail card
-├── app.component.ts                   # Root component
-├── app.config.ts                      # App configuration
-└── app.routes.ts                      # Route definitions
+├── pages/               # Page components
+│   ├── home/           # Homepage with video grid
+│   ├── video-player/   # Video player page
+│   ├── upload/         # Video upload page
+│   ├── login/          # Login page
+│   ├── register/       # Registration page
+│   ├── profile/        # User profile page
+│   ├── forgot-password/# Password recovery
+│   └── reset-password/ # Password reset
+├── shared/             # Shared components
+│   ├── navbar/         # Top navigation bar
+│   └── sidebar/        # Sidebar navigation
+└── core/               # Core services
+    └── services/       # API services
+        ├── auth.service.ts
+        ├── video.service.ts
+        └── comment.service.ts
 ```
 
-## 🔌 API Integration
+---
 
-**Base URL**: `http://localhost:8000/api`
+## 🎨 Styling
 
-### Endpoints Used
+### Custom CSS Variables
+```css
+:root {
+  --primary: #6CB2EB;          /* Soft Sky Blue */
+  --bg-main: #F5F7FA;          /* Light background */
+  --bg-card: #FFFFFF;          /* Card background */
+  --text-main: #2D3748;        /* Primary text */
+  --glass-bg: rgba(255, 255, 255, 0.7); /* Glassmorphism */
+}
+```
 
-| Feature | Method | Endpoint | Auth Required |
-|---------|--------|----------|---------------|
-| Register | POST | `/register` | ❌ |
-| Login | POST | `/login` | ❌ |
-| Upload Video | POST | `/upload` | ✅ |
-| Get All Videos | GET | `/videos` | ❌ |
-| Get Single Video | GET | `/video/{id}` | ❌ |
-| Stream Video | GET | `/video/{id}` | ❌ |
-| Like/Unlike | POST | `/like/{id}` | ✅ |
-| Check Like Status | POST | `/liked/{id}` | ✅ |
-| Get Comments | GET | `/comment/{id}` | ❌ |
-| Add Comment | POST | `/comment/{id}` | ✅ |
-| Delete Video | DELETE | `/video/{id}` | ✅ |
+### Design System
+- **Glassmorphism**: Frosted glass effect with backdrop blur
+- **Smooth Transitions**: All interactive elements have transitions
+- **Consistent Spacing**: Using a systematic spacing scale
+- **Typography**: Poppins font family throughout
 
-## 🚀 Getting Started
+### Responsive Breakpoints
+```css
+/* Mobile */    max-width: 640px
+/* Tablet */    max-width: 1000px
+/* Desktop */   max-width: 1400px+
+```
 
-### Prerequisites
+---
 
-- Node.js 18+ and npm
-- Angular CLI 21+
-- Running FastAPI backend on `http://localhost:8000`
+## 🚀 Development
 
-### Installation
+### Available Scripts
 
 ```bash
-# Install dependencies
-npm install
-
 # Start development server
 npm start
-# or
-ng serve
 
 # Build for production
 npm run build
+
+# Run tests
+npm test
+
+# Watch mode for building
+npm run watch
+
+# Lint code
+ng lint
 ```
 
-The application will be available at `http://localhost:4200`
+### Development Server
+```bash
+ng serve
+```
+Navigate to `http://localhost:4200/`. The app will automatically reload if you change any source files.
 
-## 🎨 Key Features
+### Code Scaffolding
+```bash
+# Generate a new component
+ng generate component component-name
 
-### 1. Authentication Flow
+# Generate a new service
+ng generate service service-name
 
-- **Login/Register**: Form validation with error handling
-- **Token Storage**: JWT stored in localStorage
-- **Auto-Logout**: Token removal on logout
-- **Route Protection**: Auth guard redirects to login
-- **HTTP Interceptor**: Automatically attaches `Bearer` token
+# Generate a new module
+ng generate module module-name
+```
 
-### 2. Video Player
+### Build
+```bash
+ng build
+```
+The build artifacts will be stored in the `dist/` directory.
 
-- **HTML5 Video Player**: Native browser controls
-- **Like System**: Toggle like/unlike with visual feedback
-- **Comment Section**: Real-time comment display
-- **Add Comments**: Authenticated users can comment
-- **Video Metadata**: Title, description, views, date
+---
 
-### 3. Home Feed
+## 🎥 Video Player Features
 
-- **Video Grid**: Responsive grid layout
-- **Video Cards**: Thumbnail, title, uploader, stats
-- **Category Chips**: Filter chips (UI ready)
-- **Loading States**: Skeleton/loading indicators
+### Plyr Integration
+- **Custom Controls**: Themed to match ABTube's color scheme
+- **Speed Controls**: 0.5x, 0.75x, 1x, 1.25x, 1.5x, 2x
+- **Keyboard Shortcuts**:
+  - `Space` - Play/Pause
+  - `F` - Fullscreen
+  - `M` - Mute/Unmute
+  - `↑/↓` - Volume
+  - `←/→` - Seek
+  - `0-9` - Jump to percentage
 
-### 4. Upload System
+### Video Optimization
+- **Horizontal & Vertical**: Optimized for all aspect ratios
+- **Fullscreen Fix**: Videos display completely without cropping
+- **Control Bar**: Full-width controls for vertical videos
+- **Object-Fit Contain**: Ensures entire video is always visible
 
-- **File Selection**: Video file picker
-- **Form Fields**: Title and description
-- **Validation**: Required fields and file type
-- **Upload Status**: Uploading state indicator
-- **Success Redirect**: Navigate to home after upload
+---
 
-### 5. Profile/Channel Page
+## 📂 Project Structure
 
-- **User Videos**: Display all uploaded videos
-- **Delete Functionality**: Remove own videos
-- **Video Count**: Show total videos
-- **Empty State**: Prompt to upload first video
+```
+Frontend/ABTube/
+├── src/
+│   ├── app/
+│   │   ├── pages/          # Page components
+│   │   ├── shared/         # Shared components
+│   │   ├── core/           # Core services & guards
+│   │   └── app.component.ts
+│   ├── styles.css          # Global styles
+│   └── index.html
+├── angular.json            # Angular configuration
+├── tsconfig.json           # TypeScript configuration
+├── tailwind.config.js      # Tailwind configuration
+└── package.json            # Dependencies
+```
 
-## 🛡️ Security Features
+---
 
-### Auth Guard
+## 🔒 Authentication Flow
 
+1. **Registration**: User creates account → Server validates → JWT token issued
+2. **Login**: User logs in → Server validates → JWT token stored in localStorage
+3. **Protected Routes**: Guards check for valid JWT before allowing access
+4. **Password Reset**: 
+   - User requests reset → Server sends token
+   - User clicks link → Enters new password → Server validates token
+
+---
+
+## 🎯 Services
+
+### AuthService
 ```typescript
-// Protects routes from unauthenticated access
-{ path: 'upload', component: UploadComponent, canActivate: [authGuard] }
-```
-
-### Token Interceptor
-
-```typescript
-// Automatically adds Authorization header
-Authorization: `Bearer ${token}`
-```
-
-## 🎨 UI/UX Design
-
-### Color Scheme
-
-```css
---primary: #FF0000;           /* YouTube Red */
---bg-dark: #0f0f0f;           /* Dark background */
---bg-hover: #272727;          /* Hover state */
---text-main: #ffffff;         /* Primary text */
---text-secondary: #aaaaaa;    /* Secondary text */
---border: #303030;            /* Border color */
-```
-
-### Responsive Breakpoints
-
-- **Mobile**: `< 768px` - Single column, hidden sidebar
-- **Tablet**: `768px - 1000px` - Adjusted layout
-- **Desktop**: `> 1000px` - Full layout with sidebar
-
-### Components
-
-- **Navbar**: Fixed top, 56px height
-- **Sidebar**: Collapsible, 240px width (72px collapsed)
-- **Video Grid**: Auto-fill columns, min 300px
-- **Video Cards**: 16:9 aspect ratio thumbnails
-
-## 📝 Component Details
-
-### Video Service (video.service.ts)
-
-```typescript
-export interface Video {
-    id: string;
-    title: string;
-    description: string;
-    url: string;
-    thumbnail_url: string;
-    uploader: string;
-    views: number;
-    likes: string[];
-    created_at: string;
-}
-
-// Available methods
-- getVideos()
-- getVideo(id)
-- upload(formData)
-- like(id)
-- checkLike(id)
-- deleteVideo(id)
-```
-
-### Auth Service (auth.service.ts)
-
-```typescript
-// Available methods
-- login(credentials)
-- register(data)
+- register(username, email, password)
+- login(username, password)
 - logout()
-- getToken()
 - isAuthenticated()
-
-// Reactive state
-currentUser = signal<string | null>(token)
+- getCurrentUser()
+- forgotPassword(email)
+- resetPassword(token, newPassword)
 ```
 
-### Comment Service (comment.service.ts)
-
+### VideoService
 ```typescript
-export interface Comment {
-    id: string;
-    username: string;
-    text: string;
-    timestamp: string;
-}
+- uploadVideo(formData)
+- getVideo(id)
+- getAllVideos()
+- getVideosByCategory(category)
+- deleteVideo(id)
+- like(videoId)
+- checkLike(videoId)
+```
 
-// Available methods
+### CommentService
+```typescript
 - getComments(videoId)
 - addComment(videoId, text)
+- deleteComment(commentId)
 ```
 
-## 🔧 Configuration
+---
 
-### Environment Configuration
+## 🎨 UI Components
 
-Update `videoService.ts`, `authService.ts`, `commentService.ts`:
+### Video Card
+- Thumbnail placeholder
+- Video title
+- Uploader name
+- Upload date
+- Duration badge
+- Category badge
 
-```typescript
-private apiUrl = 'http://localhost:8000/api';
-// Change to your backend URL
+### Navbar
+- ABTube logo
+- Search bar
+- User menu (when authenticated)
+- Login/Register buttons (when not authenticated)
+
+### Sidebar
+- Navigation links
+- Category filters
+- Collapsible on mobile
+
+---
+
+## 🚦 Routing
+
+| Route | Component | Auth Required |
+|-------|-----------|---------------|
+| `/` | Home | ❌ |
+| `/video/:id` | VideoPlayer | ❌ |
+| `/upload` | Upload | ✅ |
+| `/login` | Login | ❌ |
+| `/register` | Register | ❌ |
+| `/profile` | Profile | ✅ |
+| `/forgot-password` | ForgotPassword | ❌ |
+| `/reset-password` | ResetPassword | ❌ |
+
+---
+
+## 🎨 Glassmorphism Effect
+
+```css
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
 ```
 
-### App Config (app.config.ts)
+---
 
-```typescript
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideRouter(routes, withComponentInputBinding()),
-    provideHttpClient(withFetch(), withInterceptors([tokenInterceptor]))
-  ]
-};
-```
+## 📊 Performance
 
-## 📱 Mobile Responsive
+- **Lazy Loading**: Routes are lazy-loaded for better performance
+- **Standalone Components**: Modern Angular architecture
+- **RxJS Optimization**: Proper subscription management
+- **Change Detection**: OnPush strategy where applicable
 
-- **Navbar**: Adapts to mobile with adjusted search
-- **Sidebar**: Slides in from left on mobile
-- **Video Grid**: Single column on small screens
-- **Video Player**: Full-width on mobile
-
-## 🎯 Future Enhancements
-
-### Recommended Additions
-
-1. **Search Functionality**: Implement video search
-2. **Categories/Tags**: Filter videos by category
-3. **Subscriptions**: Follow uploaders
-4. **Playlists**: Create and manage playlists
-5. **Watch History**: Track viewed videos
-6. **Notifications**: Real-time notifications
-7. **Video Quality Selection**: Multiple quality options
-8. **Thumbnail Generation**: Auto-generate thumbnails
-9. **User Profile Edit**: Update profile information
-10. **Dark/Light Mode Toggle**: Theme switcher
-
-### Performance Optimizations
-
-- **Lazy Loading Routes**: Split bundles
-- **Virtual Scrolling**: For large video lists
-- **Image Optimization**: WebP thumbnails
-- **Caching Strategy**: Service worker
-- **CDN Integration**: For video streaming
+---
 
 ## 🧪 Testing
 
@@ -298,53 +379,34 @@ export const appConfig: ApplicationConfig = {
 # Run unit tests
 npm test
 
-# Run e2e tests
-npm run e2e
-
-# Build and test production bundle
-npm run build
+# Run tests with coverage
+ng test --coverage
 ```
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-1. **CORS Errors**: Ensure backend allows `http://localhost:4200`
-2. **401 Unauthorized**: Check token is being sent correctly
-3. **Video Not Playing**: Verify video URL and CORS headers
-4. **Routing Issues**: Check `provideRouter` in app.config.ts
-
-### Backend Requirements
-
-Ensure your FastAPI backend has:
-
-```python
-# CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:4200"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-```
-
-## 📄 License
-
-This project is open source and available under the MIT License.
-
-## 👥 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 🙏 Acknowledgments
-
-- Angular Team for the amazing framework
-- YouTube for design inspiration
-- FastAPI community
 
 ---
 
-**Built with ❤️ using Angular 21**
+## 🤝 Contributing
 
-For questions or support, please open an issue on the repository.
+Contributions are welcome! Feel free to:
+- Report bugs
+- Suggest new features
+- Submit pull requests
+- Improve documentation
+
+---
+
+## 📄 License
+
+This project is part of the ABTube full-stack application.
+
+---
+
+<div align="center">
+
+**Built with ❤️ using Angular & TypeScript**
+
+### 🎬 Experience the best video platform UI
+
+[⬆ Back to Top](#-abtube-frontend)
+
+</div>
